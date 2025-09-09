@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTENT Points dApp - Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Tech Neutral -->
+    <!-- Application Structure Plan: The SPA is designed as a thematic, top-down narrative to make the dApp's concept digestible. It starts with a high-level "What is it?" (Hero), moves to "How does it work?" (Ecosystem), simulates the "User Experience" (Interactive Journey), visualizes the core "Logic" (Conversion Rate), and ends with "How to build it?" (Deployment Guide). This structure was chosen over a simple report layout because it guides the user from concept to execution, using interaction to reinforce understanding at each stage, making it far more effective for learning and retention than a static document. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: System components (User, Frontend, Contracts). Goal: Organize/Inform. Viz: Interactive Diagram. Method: HTML/CSS boxes. Interaction: Clicking a box reveals detailed info in a side panel. Justification: Visually maps the system's architecture, making relationships clear. Clicks provide layered information without cluttering the main view.
+        - Report Info: User actions (Connect, Transact, Convert). Goal: Demonstrate Process. Viz: Simulated dApp UI. Method: HTML/CSS with JS state. Interaction: Buttons update a mock dashboard. Justification: Actively engages the user, letting them "experience" the app's flow, which is more memorable than reading about it.
+        - Report Info: Conversion rate (10 INTENT = 1 XAN). Goal: Compare. Viz: Bar Chart. Method: Chart.js Canvas. Interaction: Static visualization. Justification: Provides a clear, immediate visual representation of the core economic rule of the system.
+        - Report Info: Setup steps. Goal: Organize. Viz: Accordion. Method: HTML/CSS with JS toggle. Interaction: Clicking headers expands/collapses content. Justification: Organizes dense instructional text into manageable, non-overwhelming steps.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #EF4444;
+        }
+        .active-nav {
+            color: #EF4444;
+            font-weight: 600;
+        }
+        .component-box {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .component-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #EF4444;
+        }
+        .selected-box {
+            border-color: #EF4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #6B7280;
+        }
+        .accordion-header {
+            cursor: pointer;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-xl">I</div>
+                    <span class="font-bold text-xl text-slate-700">INTENT dApp Guide</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="nav-link">Overview</a>
+                    <a href="#ecosystem" class="nav-link">Ecosystem</a>
+                    <a href="#simulation" class="nav-link">Simulation</a>
+                    <a href="#deployment" class="nav-link">Deployment</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- Section 1: Overview -->
+        <section id="overview" class="text-center py-16">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">The INTENT Points dApp</h1>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600 mb-8">An interactive guide to a decentralized application where user actions are rewarded with points, which can be converted into a custom cryptocurrency. Explore the architecture, simulate the user journey, and learn how to deploy it yourself.</p>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6 text-slate-700">
+                <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <span class="font-semibold">Perform a Transaction</span>
+                </div>
+                <div class="flow-arrow">&darr;</div>
+                <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <span class="font-semibold">Earn INTENT Points</span>
+                </div>
+                <div class="flow-arrow">&darr;</div>
+                <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <span class="font-semibold">Convert to XAN Tokens</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Ecosystem -->
+        <section id="ecosystem" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">System Ecosystem</h2>
+                <p class="text-slate-600 mt-2">Click on a component to learn about its role in the dApp.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="component-box border-2 border-slate-200 p-6 rounded-xl text-center" data-component="user">
+                            <div class="text-4xl mb-2">👤</div>
+                            <h3 class="font-semibold text-lg">User & Wallet</h3>
+                        </div>
+                        <div class="component-box border-2 border-slate-200 p-6 rounded-xl text-center" data-component="frontend">
+                            <div class="text-4xl mb-2">🖥️</div>
+                            <h3 class="font-semibold text-lg">dApp Frontend</h3>
+                        </div>
+                        <div class="component-box border-2 border-slate-200 p-6 rounded-xl text-center" data-component="controller">
+                            <div class="text-4xl mb-2">⚙️</div>
+                            <h3 class="font-semibold text-lg">IntentController Contract</h3>
+                        </div>
+                        <div class="component-box border-2 border-slate-200 p-6 rounded-xl text-center" data-component="token">
+                            <div class="text-4xl mb-2">💎</div>
+                            <h3 class="font-semibold text-lg">XANToken Contract</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="component-info" class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 id="info-title" class="font-bold text-xl mb-3 text-red-600">Select a Component</h3>
+                    <p id="info-description" class="text-slate-600">Detailed information about the selected component will appear here. This panel explains how each part of the system functions and interacts with the others.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interactive Simulation -->
+        <section id="simulation" class="py-16 bg-slate-100 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold">Interactive User Journey</h2>
+                <p class="text-slate-600 mt-2">This is a simulation of the dApp's user interface. Click the buttons to see how a user earns and converts points. The process is explained step-by-step.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-red-500">dApp Simulation</h3>
+                        <div class="text-sm font-mono text-green-400" id="sim-status">🟢 Connected</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <p class="text-sm text-red-400">INTENT Points</p>
+                            <p id="sim-intent" class="text-2xl font-bold text-white">0</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <p class="text-sm text-gray-400">XAN Tokens</p>
+                            <p id="sim-xan" class="text-2xl font-bold text-white">0.00</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <button id="sim-transact-btn" class="w-full bg-slate-600 hover:bg-slate-500 text-white font-bold py-3 rounded-lg transition-colors">Make Transaction</button>
+                        <button id="sim-convert-btn" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-lg transition-colors" disabled>Convert Points</button>
+                        <button id="sim-reset-btn" class="w-full text-center text-xs text-slate-400 hover:text-white pt-2">Reset Simulation</button>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-xl mb-3">What's Happening?</h3>
+                    <div id="sim-explanation" class="text-slate-600 space-y-2">
+                        <p>Welcome to the simulation. Your wallet is connected and you currently have 0 INTENT points. Click 'Make Transaction' to begin.</p>
+                    </div>
+                </div>
+            </div>
+             <div class="text-center mt-12">
+                <h3 class="text-2xl font-bold">Conversion Logic</h3>
+                 <p class="text-slate-600 mt-2 mb-4">The core logic is the conversion rate between INTENT and XAN.</p>
+                <div class="chart-container relative w-full h-64 max-w-lg mx-auto">
+                    <canvas id="conversionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Deployment Guide -->
+        <section id="deployment" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Deployment Guide</h2>
+                <p class="text-slate-600 mt-2">Follow these steps to deploy your own instance of the INTENT dApp.</p>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="accordion-item bg-white border border-slate-200 rounded-lg">
+                    <h3 class="accordion-header flex justify-between items-center p-5">
+                        <span class="font-semibold text-lg">Step 1: Prerequisites</span>
+                        <span class="text-xl text-slate-500 transition-transform transform">&#9662;</span>
+                    </h3>
+                    <div class="accordion-content">
+                        <div class="p-5 border-t border-slate-200 text-slate-600">
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>A web browser with the MetaMask extension installed.</li>
+                                <li>An Ethereum development environment like Remix, Hardhat, or Truffle.</li>
+                                <li>Test ETH on a test network (e.g., Sepolia) to pay for gas fees.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <div class="accordion-item bg-white border border-slate-200 rounded-lg">
+                    <h3 class="accordion-header flex justify-between items-center p-5">
+                        <span class="font-semibold text-lg">Step 2: Deploy Smart Contracts</span>
+                         <span class="text-xl text-slate-500 transition-transform transform">&#9662;</span>
+                    </h3>
+                    <div class="accordion-content">
+                        <div class="p-5 border-t border-slate-200 text-slate-600 space-y-2">
+                           <p>Use an environment like Remix to compile and deploy `contracts/IntentXan.sol`. First, deploy the `IntentController` contract, which will automatically create the `XANToken` contract. Your wallet address will be the initial owner.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="accordion-item bg-white border border-slate-200 rounded-lg">
+                    <h3 class="accordion-header flex justify-between items-center p-5">
+                        <span class="font-semibold text-lg">Step 3: Configure Frontend</span>
+                         <span class="text-xl text-slate-500 transition-transform transform">&#9662;</span>
+                    </h3>
+                    <div class="accordion-content">
+                        <div class="p-5 border-t border-slate-200 text-slate-600 space-y-2">
+                           <p>After deployment, copy the contract addresses for both `IntentController` and `XANToken`. Paste these addresses into the designated variables inside the `index.html` file to link your frontend with the deployed contracts on the blockchain.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Navigation scroll highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active-nav');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active-nav');
+                    }
+                });
+            });
+
+            // Ecosystem Component Info
+            const componentBoxes = document.querySelectorAll('.component-box');
+            const infoTitle = document.getElementById('info-title');
+            const infoDescription = document.getElementById('info-description');
+            const componentData = {
+                user: {
+                    title: "User & Wallet",
+                    description: "The user interacts with the dApp through a web browser that has a crypto wallet extension like MetaMask. The wallet holds the user's account, manages keys, and signs transactions before they are sent to the blockchain."
+                },
+                frontend: {
+                    title: "dApp Frontend",
+                    description: "This is the user interface, built with HTML, CSS, and JavaScript (using ethers.js). It allows the user to trigger actions by connecting to their wallet and calling functions on the smart contracts."
+                },
+                controller: {
+                    title: "IntentController Contract",
+                    description: "The main logic contract. It handles key functions: awarding INTENT points when a user makes a transaction, tracking each user's point balance, and processing the conversion of points into XAN tokens."
+                },
+                token: {
+                    title: "XANToken Contract",
+                    description: "A standard ERC20 token contract. It defines the XAN token, manages its total supply, and handles token transfers between addresses. The IntentController owns and distributes these tokens."
+                }
+            };
+            componentBoxes.forEach(box => {
+                box.addEventListener('click', () => {
+                    componentBoxes.forEach(b => b.classList.remove('selected-box'));
+                    box.classList.add('selected-box');
+                    const componentKey = box.dataset.component;
+                    infoTitle.textContent = componentData[componentKey].title;
+                    infoDescription.textContent = componentData[componentKey].description;
+                });
+            });
+
+            // Simulation Logic
+            const simIntent = document.getElementById('sim-intent');
+            const simXan = document.getElementById('sim-xan');
+            const simTransactBtn = document.getElementById('sim-transact-btn');
+            const simConvertBtn = document.getElementById('sim-convert-btn');
+            const simResetBtn = document.getElementById('sim-reset-btn');
+            const simExplanation = document.getElementById('sim-explanation');
+            
+            let intentPoints = 0;
+            let xanTokens = 0.00;
+            const CONVERSION_RATE = 10;
+
+            const updateSimUI = () => {
+                simIntent.textContent = intentPoints;
+                simXan.textContent = xanTokens.toFixed(2);
+                simConvertBtn.disabled = intentPoints < CONVERSION_RATE;
+            };
+
+            simTransactBtn.addEventListener('click', () => {
+                intentPoints += 10;
+                updateSimUI();
+                simExplanation.innerHTML = `<p><strong>Transaction Made!</strong> You sent a transaction to the IntentController contract.</p><p>The contract's `+"`makeTransaction()`"+` function executed, and you were awarded <strong>10 INTENT points</strong>. Your new balance is reflected in the panel.</p>`;
+            });
+
+            simConvertBtn.addEventListener('click', () => {
+                const pointsToConvert = Math.floor(intentPoints / CONVERSION_RATE) * CONVERSION_RATE;
+                const tokensToReceive = pointsToConvert / CONVERSION_RATE;
+                
+                intentPoints -= pointsToConvert;
+                xanTokens += tokensToReceive;
+
+                updateSimUI();
+                simExplanation.innerHTML = `<p><strong>Conversion Successful!</strong> You called the `+"`convertIntentToXan()`"+` function.</p><p><strong>${pointsToConvert} INTENT points</strong> were exchanged for <strong>${tokensToReceive} XAN tokens</strong>. The tokens were transferred from the contract to your wallet.</p>`;
+            });
+
+            simResetBtn.addEventListener('click', () => {
+                intentPoints = 0;
+                xanTokens = 0.00;
+                updateSimUI();
+                simExplanation.innerHTML = `<p>Simulation has been reset. Click 'Make Transaction' to start again.</p>`;
+            });
+
+            // Chart.js Conversion Chart
+            const ctx = document.getElementById('conversionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['INTENT Points', 'XAN Token'],
+                    datasets: [{
+                        label: 'Conversion Rate',
+                        data: [10, 1],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.2)',
+                            'rgba(55, 65, 81, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(55, 65, 81, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.label === 'INTENT Points') {
+                                        return ' 10 INTENT points are required...';
+                                    }
+                                    return ' ...to convert to 1 XAN token.';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Accordion Logic
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('span:last-child');
+                header.addEventListener('click', () => {
+                    item.classList.toggle('open');
+                    if (item.classList.contains('open')) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        content.style.maxHeight = '0';
+                         icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
+
